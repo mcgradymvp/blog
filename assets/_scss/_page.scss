@@ -45,12 +45,12 @@
 
 .page__lead {
   font-family: $global-font-family;
-  font-size: $type-size-4;
+  font-size: $type-size-3;
 }
 
 .page__content {
   p, li, dl {
-    font-size: 1em;
+    font-size: 0.688em;
   }
 
   /* paragraph indents */
@@ -134,7 +134,7 @@
     }
 
     .page__title {
-      font-size: $type-size-2;
+      font-size: $type-size-1;
 
       @include breakpoint($small) {
         font-size: $type-size-1;

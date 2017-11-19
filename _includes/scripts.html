@@ -1,4 +1,10 @@
 <script src="{{ base_path }}/assets/js/main.min.js"></script>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+    {% if page.use_math %}
+      {% include mathjax_support %}
+    {% endif %}
+</head>
+
 
 {% include analytics.html %}
 {% include /comments-providers/scripts.html %}

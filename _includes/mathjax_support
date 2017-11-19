@@ -1,0 +1,32 @@
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+     SVG: {
+        linebreaks: {
+        automatic: true,
+        width: "container"
+      },
+        scale : 80
+  },
+      TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+      }
+  },
+    tex2jax: {
+        inlineMath: [ ['$','$']],
+        displayMath: [ ['$$','$$'] ],
+        processEscapes: true,
+  }
+});
+MathJax.Hub.Register.StartupHook("End Jax",function () {
+  var BROWSER = MathJax.Hub.Browser;
+  var jax = "SVG";
+  if (BROWSER.isMSIE && BROWSER.hasMathPlayer) jax = "NativeMML";
+  return MathJax.Hub.setRenderer(jax);
+});
+
+
+</script>
+<script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
