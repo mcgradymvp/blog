@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Metropolis-Hastings Algorithm - Fan’s Personal Blog</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-GB">
+<meta property="og:site_name" content="Fan's Personal Blog">
+<meta property="og:title" content="Metropolis-Hastings Algorithm">
+
+
+  <link rel="canonical" href="http://localhost:4000/markov%20chain%20monte%20carlo/Metropolis-Hastings/">
+  <meta property="og:url" content="http://localhost:4000/markov%20chain%20monte%20carlo/Metropolis-Hastings/">
+
+
+
+  <meta property="og:description" content="An introduction to Metropolis-Hastings Algorithm">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-11-20T00:00:00+08:00">
+  
+  
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "person",
+      "name" : "Fan Wang",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Fan's Personal Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="http://localhost:4000/images/icons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="http://localhost:4000/images/icons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="http://localhost:4000/images/icons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/icons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/icons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/icons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/icons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/icons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/icons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/icons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/icons/manifest.json">
+<link rel="mask-icon" href="http://localhost:4000/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="http://localhost:4000/images/icons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/icons/mstile-144x144.png">
+<meta name="msapplication-config" content="http://localhost:4000/images/icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+    
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Fan's Personal Blog</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    <a href="http://localhost:4000/">
+    
+    	<img src="http://localhost:4000/images//avatar.jpg" class="author__avatar" alt="Fan Wang">
+    
+    </a>
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Fan Wang</h3>
+    <p class="author__bio">Bayesian</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li>
+<i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Singapore</li>
+      
+      
+        <li><a href="http://wilfred.im"><i class="fa fa-fw fa-chain" aria-hidden="true"></i> Website</a></li>
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://linkedin.com/in/:fan-wang-15022411b"><i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="http://github.com/mcgradymvp"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Metropolis-Hastings Algorithm">
+    <meta itemprop="description" content="An introduction to Metropolis-Hastings Algorithm">
+    <meta itemprop="datePublished" content="November 20, 2017">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Metropolis-Hastings Algorithm
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  8 minutes read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>In Bayesian statistics, we treat the unknown parameter $\theta$ as a random variable, and estimate $\theta$ by a posterior distribution, which is proportional to the product of prior and likelihood. When conjugate prior is applied, the analytical form of posterior can be derived since it has the same form as prior. In some situations, we are able to perform a numerical integration of normalising constant. However, in most cases, the analytical and numerical results can be hardly obtained, especially in high-dimensional cases. In such cases, Monte Carlo methods play an important role. In this post, we are about to give an introduction of Metropolis-Hastings Algorithm.</p>
+
+<h2 id="metropolis-hastings-algorithm">Metropolis-Hastings Algorithm</h2>
+<p>Markov chain Monte Carlo has been widely used to generate random samples from a probability density function, which in intractable to generate directly. The method usually generates a Markov chain with stationary distribution close to our target distribution.</p>
+
+<p>Metropolis-Hastings Algorithm, which was proposed by Metropolis and Rosenbluth<a href="#Metro">[1]</a> and later generalized by W.K. Hastings<a href="#Hastings">[2]</a>, is probably the best known MCMC methods.</p>
+
+<p>Suppose we are interested in density function $f(x)$. Given an initial state $x_0$ and a proposal distribution $q(\cdot, x)$ depend on $x$. The Metropolis-Hasting Algorithm performs the following steps for enough number of iterations until the Markov chain converges:</p>
+<ul>
+  <li>At state $x_i$, we propose a new state $y_i$ from the proposal distribution $q(\cdot, x_i)$</li>
+  <li>Compute the acceptance rate $\alpha=\min(\frac{f(y_i)q(y_i, x_i)}{f(x_i)q(x_i, y_i)}, 1)$</li>
+  <li>Generate $u\sim U(0, 1)$. If $u&lt;\alpha$, then set $x_{i+1} = y_i$, otherwise set $x_{i+1}=x_i$.</li>
+</ul>
+
+<h4 id="some-notes-about-metropolis-hastings-algorithm">Some notes about Metropolis-Hastings Algorithm</h4>
+<ol>
+  <li>The acceptance rate $\alpha$ requires only the ratio of target distribution, which cancels out the normalisation term in posterior distribution. That’s why in MH algorithm, we only need an unnormalised form of target distribution.</li>
+  <li>The proposal distribution has a great influence in the convergence of Markov chain. The markov chain converges to stationary distribution faster when the proposal density is closer to target distribution.</li>
+  <li>We accept the proposal state with the probability of $\alpha$ in order to satisfy the detailed balance property. We will discuss the reason for this in later section.</li>
+</ol>
+
+<h2 id="why-would-metropolis-hastings-algorithm-works">Why Would Metropolis-Hastings Algorithm Works?</h2>
+<p>According to the definition of <a href="https://en.wikipedia.org/wiki/Markov_chain#Markov_property">Markov chain</a>, the sequence generated by Metropolis-Hastings Algorithm is indeed a Markov chain. However, we might ask, why would this Markov chain generated converges to our target distribution? We divide this question into two aspects: (1)the Markov chain has a unique stationary distribution and (2)the unique stationary distribution is exactly our target $f(x)$.</p>
+
+<p>The first aspect is proved by ergodicity of Markov chain, that is, if a Markov chain is irreducible, aperiodic and positive recurrent, then a unique stationary distribution exists.</p>
+
+<p>What’s remaining is to prove the stationary distribution equals to the target distribution. To see this, we first consider the detailed balance condition(reversibility) for Markov chain.</p>
+<blockquote>
+  <p>A Markov chain is said to be <strong>reversible</strong> with distribution $\pi$, and transition matrix $P$, if $\pi_ip_{ij}=\pi_jp_{ji}$ for all $i, j$.</p>
+</blockquote>
+
+<p>The detailed balance property also implies stationarity. If a Markov chain with transition matrix $P$ satisfies detailed balance with distribution $\pi$, then $\pi$ is a stationary distribution. This can be easily proved by</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{eqnarray}
+\sum_j\pi_jP_{ji} &=& \sum_j\pi_iP_{ij} \nonumber \\
+&=&\pi_i\sum_jP_{ij} \nonumber \\
+&=&\pi_i \nonumber
+\end{eqnarray} %]]></script>
+
+<p>Now we prove the Markov chain generated by Metropolis-Hastings algorithm satisfies detailed balance condition, with the target density $f(x)$. If we assume that $\frac{f(j)q_{ji}}{f(i)q_{ij}}\leq 1$, then</p>
+
+<script type="math/tex; mode=display">P_{ji} = q_{ji}\min(\frac{f(i)q_{ij}}{f(j)q_{ji}}, 1) = q_{ji}</script>
+
+<p>and</p>
+
+<script type="math/tex; mode=display">P_{ij} = q_{ij}\min(\frac{f(j)q_{ji}}{f(i)q_{ij}}, 1) = q_{ij}\frac{f(j)q_{ji}}{f(i)q_{ij}} = \frac{f(j)q_{ji}}{f(i)}</script>
+
+<p>which implies the detailed balance condition:</p>
+
+<script type="math/tex; mode=display">P_{ij} = \frac{f(j)P_{ji}}{f(i)} \Rightarrow P_{ij}f(i) = P_{ji}f(j)</script>
+
+<p>Thus, the Metropolis-Hastings algorithm generates a Markov chain, with a unique stationary distribution, which is exactly our target density $f(x)$</p>
+
+<h2 id="implementation-of-metropolis-hastings-algorithm">Implementation of Metropolis-Hastings Algorithm</h2>
+<p>To be continued…</p>
+
+<h2 id="reference">Reference</h2>
+<p><a name="Metro">[1]</a> Nicholas Metropolis, Arianna W Rosenbluth, Marshall N Rosenbluth, Augusta H Teller, and Edward Teller. Equation of state calculations by fast computing machines. The journal of chemical physics, 21(6):1087–1092, 1953.</p>
+
+<p><a name="Hastings">[2]</a> W Keith Hastings. Monte Carlo sampling methods using Markov chains and their applications. Biometrika, 57(1):97–109, 1970.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bayesian" class="page__taxonomy-item" rel="tag">Bayesian</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#mcmc" class="page__taxonomy-item" rel="tag">MCMC</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#statistics" class="page__taxonomy-item" rel="tag">Statistics</a>
+    
+    </span>
+  </p>
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/categories/#markov-chain-monte-carlo" class="page__taxonomy-item" rel="tag">Markov chain Monte Carlo</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2017-11-20T00:00:00+08:00">November 20, 2017</time></p>
+        
+      </footer>
+
+      
+
+      
+
+
+    </div>
+
+    
+      
+
+<div class="page__comments">
+  <h4 class="page__comments-title">Leave a Comment</h4>
+  
+    <section id="disqus_thread"></section>
+  
+</div>
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  
+    <a href="http://localhost:4000/markov%20chain%20monte%20carlo/Metropolis-Hastings/">
+  
+    <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+      
+      <h2 class="archive__item-title" itemprop="headline">Metropolis-Hastings Algorithm
+</h2>
+      
+        <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  8 minutes read
+</p>
+      
+      
+      <p class="archive__item-excerpt" itemprop="description">An introduction to Metropolis-Hastings Algorithm
+</p>
+    </article>
+  </a>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/mcgradymvp"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2017 Fan Wang. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+    
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+     SVG: {
+        linebreaks: {
+        automatic: true,
+        width: "container"
+      },
+        scale : 75
+  },
+      TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+      }
+  },
+    tex2jax: {
+        inlineMath: [ ['$','$']],
+        displayMath: [ ['$$','$$'] ],
+        processEscapes: true,
+  }
+});
+MathJax.Hub.Register.StartupHook("End Jax",function () {
+  var BROWSER = MathJax.Hub.Browser;
+  var jax = "SVG";
+  if (BROWSER.isMSIE && BROWSER.hasMathPlayer) jax = "NativeMML";
+  return MathJax.Hub.setRenderer(jax);
+});
+
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX;
+  var PREFILTER = TEX.prefilterMath;
+  TEX.Augment({
+    prefilterMath: function (math,displaymode,script) {
+      if (!displaymode) {math = "\\Large{"+math+"}"}
+      return PREFILTER.call(TEX,math,displaymode,script);
+    }
+  });
+});
+
+
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript">
+  	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  	var disqus_shortname = 'mcgradymvp';
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function() {
+  		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  	})();
+
+  	/* * * DON'T EDIT BELOW THIS LINE * * */
+  	(function () {
+  		var s = document.createElement('script'); s.async = true;
+  		s.type = 'text/javascript';
+  		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  	}());
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+
+
+
+
+
+    <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+  </body>
+</html>

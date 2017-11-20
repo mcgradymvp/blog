@@ -5,7 +5,7 @@
         automatic: true,
         width: "container"
       },
-        scale : 80
+        scale : 75
   },
       TeX: {
         equationNumbers: {
@@ -23,6 +23,17 @@ MathJax.Hub.Register.StartupHook("End Jax",function () {
   var jax = "SVG";
   if (BROWSER.isMSIE && BROWSER.hasMathPlayer) jax = "NativeMML";
   return MathJax.Hub.setRenderer(jax);
+});
+
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX;
+  var PREFILTER = TEX.prefilterMath;
+  TEX.Augment({
+    prefilterMath: function (math,displaymode,script) {
+      if (!displaymode) {math = "\\Large{"+math+"}"}
+      return PREFILTER.call(TEX,math,displaymode,script);
+    }
+  });
 });
 
 
