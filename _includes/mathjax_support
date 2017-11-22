@@ -5,7 +5,7 @@
         automatic: true,
         width: "container"
       },
-        scale : 75
+        scale : 70
   },
       TeX: {
         equationNumbers: {
