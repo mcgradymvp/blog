@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Fan Wang</title>
+    <link>https://wilfred.im/tags/</link>
+    <description>Recent content in Tags on Fan Wang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 20 Nov 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://wilfred.im/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bayesian</title>
+      <link>https://wilfred.im/tags/bayesian/</link>
+      <pubDate>Sun, 20 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://wilfred.im/tags/bayesian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mcmc</title>
+      <link>https://wilfred.im/tags/mcmc/</link>
+      <pubDate>Sun, 20 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://wilfred.im/tags/mcmc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistics</title>
+      <link>https://wilfred.im/tags/statistics/</link>
+      <pubDate>Sun, 20 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://wilfred.im/tags/statistics/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
