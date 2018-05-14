@@ -107,6 +107,7 @@ blockquote {
 }
 
 .hljs {
+  white-space: pre-wrap;
   background: none !important;
   overflow-x: auto !important;
   font-family: Monaco;
