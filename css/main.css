@@ -13,7 +13,7 @@ main {
     margin: auto;
     padding: 25px;
     flex: 1 0 auto;
-    max-width: 750px;
+    max-width: 1000px;
 }
 
 /*footer*/
@@ -97,4 +97,19 @@ footer {
 
 img {
     max-width: 100%;
+}
+
+blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 13.5px !important;
+  border-left: 5px solid #eeeeee;
+}
+
+.hljs {
+  background: none !important;
+  overflow-x: auto !important;
+  font-family: Monaco;
+  font-size: 0.85em;
+  padding: 0.5em;
 }
