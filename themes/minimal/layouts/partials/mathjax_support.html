@@ -1,0 +1,48 @@
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+     showProcessingMessages: false,
+     SVG: {
+        linebreaks: {
+        automatic: true,
+        width: "container"
+      },
+        scale : 75
+  },
+      TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+      }
+  },
+    tex2jax: {
+      inlineMath: [['$','$']],
+      displayMath: [['$$','$$']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+MathJax.Hub.Register.StartupHook("End Jax",function () {
+  var BROWSER = MathJax.Hub.Browser;
+  var jax = "SVG";
+  if (BROWSER.isMSIE && BROWSER.hasMathPlayer) jax = "NativeMML";
+  return MathJax.Hub.setRenderer(jax);
+});
+
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX;
+  var PREFILTER = TEX.prefilterMath;
+  TEX.Augment({
+    prefilterMath: function (math,displaymode,script) {
+      if (!displaymode) {math = "\\Large{"+math+"}"}
+      return PREFILTER.call(TEX,math,displaymode,script);
+    }
+  });
+});
+</script>
+
+
+<script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
