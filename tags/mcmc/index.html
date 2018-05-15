@@ -87,7 +87,7 @@
         automatic: true,
         width: "container"
       },
-        scale : 75
+        scale : 100
   },
       TeX: {
         equationNumbers: {
@@ -111,16 +111,7 @@ MathJax.Hub.Register.StartupHook("End Jax",function () {
   return MathJax.Hub.setRenderer(jax);
 });
 
-MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
-  var TEX = MathJax.InputJax.TeX;
-  var PREFILTER = TEX.prefilterMath;
-  TEX.Augment({
-    prefilterMath: function (math,displaymode,script) {
-      if (!displaymode) {math = "\\Large{"+math+"}"}
-      return PREFILTER.call(TEX,math,displaymode,script);
-    }
-  });
-});
+
 </script>
 
 
