@@ -27,5 +27,3 @@ fields:
   type: boolean
   hidden: false
   default: true
-pages:
-- content/posts/test.md
