@@ -14,11 +14,6 @@ sections:
   label: Posts
   create: all
   match: "**/*"
-- type: directory
-  path: content/images
-  label: Images
-  create: all
-  match: "**/*"
 upload_dir: content/images
 public_path: "/images"
 front_matter_path: ''
